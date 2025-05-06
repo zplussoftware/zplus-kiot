@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supplier extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -17,12 +16,19 @@ class Supplier extends Model
      */
     protected $fillable = [
         'name',
-        'contact_info',
+        'code',
+        'contact_person',
+        'contact_phone',
         'address',
         'tax_code',
         'email',
         'phone',
-        'debt_total',
+        'current_debt',
+        'is_active',
+        'bank_name',
+        'bank_account',
+        'bank_branch',
+        'notes',
     ];
 
     /**
@@ -31,7 +37,8 @@ class Supplier extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'debt_total' => 'decimal:2',
+        'current_debt' => 'decimal:2',
+        'is_active' => 'boolean',
     ];
 
     /**

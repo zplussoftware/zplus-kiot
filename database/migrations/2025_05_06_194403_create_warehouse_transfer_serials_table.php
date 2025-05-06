@@ -11,13 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('warehouse_transfer_serials', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('transfer_item_id')->constrained('warehouse_transfer_items');
-            $table->foreignId('serial_id')->constrained('product_serials');
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        // Không tạo lại bảng, mà chỉ thêm các thuộc tính cần thiết nếu bảng đã tồn tại
+        if (Schema::hasTable('warehouse_transfer_serials')) {
+            Schema::table('warehouse_transfer_serials', function (Blueprint $table) {
+                // Kiểm tra và thêm các cột nếu cần
+                if (!Schema::hasColumn('warehouse_transfer_serials', 'transfer_item_id')) {
+                    $table->foreignId('transfer_item_id')->constrained('warehouse_transfer_items')->after('id');
+                }
+                if (!Schema::hasColumn('warehouse_transfer_serials', 'serial_id')) {
+                    $table->foreignId('serial_id')->constrained('product_serials')->after('transfer_item_id');
+                }
+            });
+        }
     }
 
     /**
@@ -25,6 +30,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('warehouse_transfer_serials');
+        // Không xóa bảng, chỉ xóa các cột đã thêm nếu cần
+        // Migration này không thêm cột mới nên không cần xóa gì trong down()
     }
 };

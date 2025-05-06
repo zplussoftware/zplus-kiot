@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shift_orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('shift_id')->constrained('shifts');
-            $table->foreignId('order_id')->constrained('orders');
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        // Không tạo lại bảng, mà chỉ thêm các thuộc tính cần thiết nếu bảng đã tồn tại
+        if (Schema::hasTable('shift_orders')) {
+            Schema::table('shift_orders', function (Blueprint $table) {
+                // Thêm các cột mới nếu cần thiết
+                // Không có cột mới cần thêm trong trường hợp này
+            });
+        }
     }
 
     /**
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shift_orders');
+        // Không xóa bảng vì nó đã được tạo bởi migration khác
     }
 };

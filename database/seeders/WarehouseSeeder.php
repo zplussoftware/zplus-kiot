@@ -16,17 +16,21 @@ class WarehouseSeeder extends Seeder
         // Create default warehouse
         Warehouse::create([
             'name' => 'Kho Chính',
-            'location' => 'Trụ sở công ty',
+            'code' => 'KHO-CHINH',
+            'address' => 'Trụ sở công ty',
             'description' => 'Kho hàng chính của công ty',
-            'status' => 'active',
+            'is_active' => true,
+            'is_default' => true,
         ]);
 
         // Add another sample warehouse
         Warehouse::create([
             'name' => 'Kho Chi Nhánh',
-            'location' => 'Chi nhánh 1',
+            'code' => 'KHO-CN1',
+            'address' => 'Chi nhánh 1',
             'description' => 'Kho hàng chi nhánh 1',
-            'status' => 'active',
+            'is_active' => true,
+            'is_default' => false,
         ]);
     }
 }

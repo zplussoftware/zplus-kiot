@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stock_import_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('import_id')->constrained('stock_imports');
-            $table->foreignId('product_id')->constrained('products');
-            $table->integer('quantity');
-            $table->decimal('cost', 15, 2)->default(0);
-            $table->decimal('total', 15, 2)->default(0);
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        // Không tạo lại bảng, mà chỉ thêm các thuộc tính cần thiết nếu bảng đã tồn tại
+        if (Schema::hasTable('stock_import_items')) {
+            Schema::table('stock_import_items', function (Blueprint $table) {
+                // Kiểm tra và thêm các cột nếu cần
+                if (!Schema::hasColumn('stock_import_items', 'cost')) {
+                    $table->decimal('cost', 15, 2)->default(0)->after('quantity');
+                }
+                if (!Schema::hasColumn('stock_import_items', 'total')) {
+                    $table->decimal('total', 15, 2)->default(0)->after('cost');
+                }
+            });
+        }
     }
 
     /**
@@ -28,6 +30,16 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_import_items');
+        // Không xóa bảng, chỉ xóa các cột đã thêm nếu cần
+        if (Schema::hasTable('stock_import_items')) {
+            Schema::table('stock_import_items', function (Blueprint $table) {
+                if (Schema::hasColumn('stock_import_items', 'cost')) {
+                    $table->dropColumn('cost');
+                }
+                if (Schema::hasColumn('stock_import_items', 'total')) {
+                    $table->dropColumn('total');
+                }
+            });
+        }
     }
 };

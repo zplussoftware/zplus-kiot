@@ -11,20 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stock_imports', function (Blueprint $table) {
-            $table->id();
-            $table->string('import_number')->unique();
-            $table->foreignId('supplier_id')->constrained('suppliers');
-            $table->foreignId('warehouse_id')->constrained('warehouses');
-            $table->foreignId('user_id')->constrained('users');
-            $table->decimal('total', 15, 2)->default(0);
-            $table->decimal('paid_amount', 15, 2)->default(0);
-            $table->decimal('debt_amount', 15, 2)->default(0);
-            $table->string('status')->default('pending'); // pending, completed, cancelled
-            $table->text('note')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        // Không tạo lại bảng, mà chỉ thêm các thuộc tính cần thiết nếu bảng đã tồn tại
+        if (Schema::hasTable('stock_imports')) {
+            Schema::table('stock_imports', function (Blueprint $table) {
+                // Thêm các cột còn thiếu nếu cần
+                if (!Schema::hasColumn('stock_imports', 'import_number')) {
+                    $table->string('import_number')->unique()->after('id');
+                }
+                if (!Schema::hasColumn('stock_imports', 'debt_amount')) {
+                    $table->decimal('debt_amount', 15, 2)->default(0)->after('paid_amount');
+                }
+            });
+        }
     }
 
     /**
@@ -32,6 +30,16 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_imports');
+        // Không xóa bảng, chỉ xóa các cột đã thêm nếu cần
+        if (Schema::hasTable('stock_imports')) {
+            Schema::table('stock_imports', function (Blueprint $table) {
+                if (Schema::hasColumn('stock_imports', 'import_number')) {
+                    $table->dropColumn('import_number');
+                }
+                if (Schema::hasColumn('stock_imports', 'debt_amount')) {
+                    $table->dropColumn('debt_amount');
+                }
+            });
+        }
     }
 };

@@ -11,23 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shifts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('warehouse_id')->constrained('warehouses');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time')->nullable();
-            $table->decimal('opening_amount', 15, 2)->default(0);
-            $table->decimal('closing_amount', 15, 2)->default(0);
-            $table->decimal('total_cash_sale', 15, 2)->default(0);
-            $table->decimal('total_bank_sale', 15, 2)->default(0);
-            $table->decimal('total_credit_sale', 15, 2)->default(0);
-            $table->decimal('total_sale', 15, 2)->default(0);
-            $table->string('status')->default('open'); // open, closed
-            $table->text('note')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        // Không tạo lại bảng, mà chỉ thêm các thuộc tính cần thiết nếu bảng đã tồn tại
+        if (Schema::hasTable('shifts')) {
+            Schema::table('shifts', function (Blueprint $table) {
+                // Kiểm tra và thêm các cột nếu cần
+                if (!Schema::hasColumn('shifts', 'total_cash_sale')) {
+                    $table->decimal('total_cash_sale', 15, 2)->default(0)->after('closing_amount');
+                }
+                if (!Schema::hasColumn('shifts', 'total_bank_sale')) {
+                    $table->decimal('total_bank_sale', 15, 2)->default(0)->after('total_cash_sale');
+                }
+                if (!Schema::hasColumn('shifts', 'total_credit_sale')) {
+                    $table->decimal('total_credit_sale', 15, 2)->default(0)->after('total_bank_sale');
+                }
+                if (!Schema::hasColumn('shifts', 'total_sale')) {
+                    $table->decimal('total_sale', 15, 2)->default(0)->after('total_credit_sale');
+                }
+            });
+        }
     }
 
     /**
@@ -35,6 +36,16 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shifts');
+        // Không xóa bảng, chỉ xóa các cột đã thêm nếu cần
+        if (Schema::hasTable('shifts')) {
+            Schema::table('shifts', function (Blueprint $table) {
+                $table->dropColumn([
+                    'total_cash_sale',
+                    'total_bank_sale',
+                    'total_credit_sale',
+                    'total_sale'
+                ]);
+            });
+        }
     }
 };
