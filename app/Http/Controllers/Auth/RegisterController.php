@@ -38,7 +38,13 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        // Changed from guest middleware to auth + admin role to restrict registration
+        $this->middleware(['auth', function ($request, $next) {
+            if (!auth()->user()->hasRole('admin')) {
+                abort(403, 'Unauthorized action.');
+            }
+            return $next($request);
+        }]);
     }
 
     /**
@@ -64,10 +70,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'active' => 1, // Set active by default
         ]);
+        
+        // Assign default role based on form input or set as needed
+        if (isset($data['role']) && auth()->user()->hasRole('admin')) {
+            $user->assignRole($data['role']);
+        } else {
+            // Default role if not specified
+            $user->assignRole('staff');
+        }
+        
+        return $user;
     }
 }

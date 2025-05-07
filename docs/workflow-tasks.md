@@ -3,25 +3,25 @@
 ## 1. Luồng Trang Home (Public)
 
 ### 1.1. Thiết kế giao diện
-- [ ] Tạo layout chung (header, footer, navigation)
-- [ ] Thiết kế trang giới thiệu hệ thống
-- [ ] Thiết kế form đăng nhập
-- [ ] Thiết kế trang thông tin liên hệ
-- [ ] Thiết kế trang giới thiệu tính năng
+- [x] Tạo layout chung (header, footer, navigation)
+- [x] Thiết kế trang giới thiệu hệ thống
+- [x] Thiết kế form đăng nhập
+- [x] Thiết kế trang thông tin liên hệ
+- [x] Thiết kế trang giới thiệu tính năng
 
 ### 1.2. Xác thực và phân quyền
-- [ ] Xây dựng form đăng nhập
-- [ ] Xử lý logic xác thực người dùng
-- [ ] Điều hướng sau đăng nhập dựa trên vai trò (admin -> trang admin, nhân viên bán hàng -> trang POS)
-- [ ] Vô hiệu hóa chức năng đăng ký mặc định
-- [ ] Xây dựng chức năng quên mật khẩu
+- [x] Xây dựng form đăng nhập
+- [x] Xử lý logic xác thực người dùng
+- [x] Điều hướng sau đăng nhập dựa trên vai trò (admin -> trang admin, nhân viên bán hàng -> trang POS)
+- [x] Vô hiệu hóa chức năng đăng ký mặc định
+- [x] Xây dựng chức năng quên mật khẩu
 
 ### 1.3. Nội dung
-- [ ] Viết nội dung giới thiệu về hệ thống Z-Plus KIOT
-- [ ] Tạo slideshow giới thiệu tính năng
-- [ ] Thiết kế phần trình bày lợi ích của hệ thống
-- [ ] Tạo phần FAQ (Câu hỏi thường gặp)
-- [ ] Thêm thông tin liên hệ và hỗ trợ
+- [x] Viết nội dung giới thiệu về hệ thống Z-Plus KIOT
+- [x] Tạo slideshow giới thiệu tính năng
+- [x] Thiết kế phần trình bày lợi ích của hệ thống
+- [x] Tạo phần FAQ (Câu hỏi thường gặp)
+- [x] Thêm thông tin liên hệ và hỗ trợ
 
 ## 2. Luồng Trang Admin
 

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\RoleMiddleware;
+use App\Http\Middleware\PermissionMiddleware;
 
 Route::get('/', function () {
     return view('home.index');
@@ -63,30 +65,36 @@ Route::get('/home', function () {
     return view('home.index');
 })->name('home');
 
-// Admin routes
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+// Admin routes - require admin or manager role
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|manager'])->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
     
-    Route::get('/products', function () {
-        // Placeholder for products index
-        return "Products Index";
-    })->name('products.index');
+    // Admin products routes - require admin role or product management permission
+    Route::middleware(['permission:manage products'])->group(function () {
+        Route::get('/products', function () {
+            // Placeholder for products index
+            return "Products Index";
+        })->name('products.index');
+        
+        Route::get('/products/stock', function () {
+            // Placeholder for products stock
+            return "Products Stock";
+        })->name('products.stock');
+    });
     
-    Route::get('/products/stock', function () {
-        // Placeholder for products stock
-        return "Products Stock";
-    })->name('products.stock');
-    
-    Route::get('/orders', function () {
-        // Placeholder for orders index
-        return "Orders Index";
-    })->name('orders.index');
+    // Admin orders routes - require admin role or order management permission
+    Route::middleware(['permission:manage orders'])->group(function () {
+        Route::get('/orders', function () {
+            // Placeholder for orders index
+            return "Orders Index";
+        })->name('orders.index');
+    });
 });
 
-// POS routes
-Route::prefix('pos')->name('pos.')->middleware('auth')->group(function () {
+// POS routes - require cashier, admin or manager role
+Route::prefix('pos')->name('pos.')->middleware(['auth', 'role:admin|manager|cashier'])->group(function () {
     Route::get('/', function () {
         return view('pos.index');
     })->name('index');

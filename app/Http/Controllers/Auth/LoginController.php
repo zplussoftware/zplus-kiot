@@ -40,6 +40,21 @@ class LoginController extends Controller
     }
 
     /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function credentials(Request $request)
+    {
+        // Add 'active' => 1 to the credentials array
+        return array_merge(
+            $request->only($this->username(), 'password'),
+            ['active' => 1]
+        );
+    }
+
+    /**
      * The user has been authenticated.
      *
      * @param  \Illuminate\Http\Request  $request
