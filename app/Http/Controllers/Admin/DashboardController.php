@@ -26,8 +26,8 @@ class DashboardController extends Controller
         $lastMonth = Carbon::now()->subMonth()->startOfMonth();
 
         // Today's sales and comparison with yesterday
-        $todaySales = Order::whereDate('created_at', $today)->sum('total_amount');
-        $yesterdaySales = Order::whereDate('created_at', $yesterday)->sum('total_amount');
+        $todaySales = Order::whereDate('created_at', $today)->sum('total');
+        $yesterdaySales = Order::whereDate('created_at', $yesterday)->sum('total');
         $salesGrowth = $yesterdaySales > 0 ? (($todaySales - $yesterdaySales) / $yesterdaySales) * 100 : 100;
 
         // Today's orders and comparison with yesterday
@@ -82,7 +82,7 @@ class DashboardController extends Controller
             for ($i = 6; $i >= 0; $i--) {
                 $date = Carbon::now()->subDays($i);
                 $labels[] = $date->format('d/m');
-                $data[] = Order::whereDate('created_at', $date->toDateString())->sum('total_amount');
+                $data[] = Order::whereDate('created_at', $date->toDateString())->sum('total');
             }
         } elseif ($period === '30days') {
             // Get sales data for last 30 days (grouped by 3-day periods)
@@ -90,7 +90,7 @@ class DashboardController extends Controller
                 $startDate = Carbon::now()->subDays(30)->addDays($i * 3);
                 $endDate = (clone $startDate)->addDays(2);
                 $labels[] = $startDate->format('d/m') . '-' . $endDate->format('d/m');
-                $data[] = Order::whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()])->sum('total_amount');
+                $data[] = Order::whereBetween('created_at', [$startDate->startOfDay(), $endDate->endOfDay()])->sum('total');
             }
         } elseif ($period === 'year') {
             // Get sales data for current year (by month)
@@ -100,7 +100,7 @@ class DashboardController extends Controller
                 $labels[] = $month->format('M');
                 $data[] = Order::whereYear('created_at', $currentYear)
                     ->whereMonth('created_at', $i)
-                    ->sum('total_amount');
+                    ->sum('total');
             }
         }
         
@@ -127,8 +127,8 @@ class DashboardController extends Controller
         return Product::select('products.*', DB::raw('SUM(product_stocks.quantity) as total_stock'))
             ->join('product_stocks', 'products.id', '=', 'product_stocks.product_id')
             ->groupBy('products.id')
-            ->having('total_stock', '<=', 10)
-            ->orderBy('total_stock', 'asc')
+            ->having(DB::raw('SUM(product_stocks.quantity)'), '<=', 10)
+            ->orderBy(DB::raw('SUM(product_stocks.quantity)'), 'asc')
             ->take(4)
             ->get();
     }

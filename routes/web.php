@@ -66,11 +66,64 @@ Route::get('/home', function () {
 })->name('home');
 
 // Admin routes - require admin or manager role
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|manager'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:Admin|manager'])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     
+    // User and Role Management
+    Route::middleware(['permission:view_users'])->group(function () {
+        Route::resource('users', App\Http\Controllers\Admin\UserController::class);
+        
+        // Direct User Permissions Management
+        Route::get('users/{user}/permissions', [App\Http\Controllers\Admin\UserPermissionController::class, 'edit'])
+            ->name('users.permissions.edit')
+            ->middleware('permission:assign_permissions');
+        Route::put('users/{user}/permissions', [App\Http\Controllers\Admin\UserPermissionController::class, 'update'])
+            ->name('users.permissions.update')
+            ->middleware('permission:assign_permissions');
+            
+        // User Status Toggle
+        Route::put('users/{user}/toggle-status', [App\Http\Controllers\Admin\UserStatusController::class, 'update'])
+            ->name('users.toggle-status')
+            ->middleware('permission:edit_users');
+    });
+    
+    Route::middleware(['permission:view_roles'])->group(function () {
+        Route::resource('roles', App\Http\Controllers\Admin\RoleController::class);
+    });
+    
+    // Categories Management
+    Route::middleware(['permission:view_products'])->group(function () {
+        Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+    });
+    
+    // Customers Management
+    Route::middleware(['permission:view_customers'])->group(function () {
+        Route::resource('customers', App\Http\Controllers\Admin\CustomerController::class);
+    });
+    
+    // Suppliers Management
+    Route::middleware(['permission:view_inventory'])->group(function () {
+        Route::resource('suppliers', App\Http\Controllers\Admin\SupplierController::class);
+    });
+    
+    // Warehouses Management
+    Route::middleware(['permission:view_inventory'])->group(function () {
+        Route::resource('warehouses', App\Http\Controllers\Admin\WarehouseController::class);
+    });
+    
+    // Warranties Management
+    Route::middleware(['permission:view_warranties'])->group(function () {
+        Route::resource('warranties', App\Http\Controllers\Admin\WarrantyController::class);
+    });
+    
+    // Reports
+    Route::middleware(['permission:view_reports'])->group(function () {
+        Route::get('/reports/sales', [App\Http\Controllers\Admin\ReportsController::class, 'sales'])->name('reports.sales');
+        Route::get('/reports/inventory', [App\Http\Controllers\Admin\ReportsController::class, 'inventory'])->name('reports.inventory');
+    });
+    
     // Admin products routes - require admin role or product management permission
-    Route::middleware(['permission:manage products'])->group(function () {
+    Route::middleware(['permission:view_products'])->group(function () {
         Route::get('/products', function () {
             // Placeholder for products index
             return "Products Index";
@@ -83,7 +136,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|manager'
     });
     
     // Admin orders routes - require admin role or order management permission
-    Route::middleware(['permission:manage orders'])->group(function () {
+    Route::middleware(['permission:view_orders'])->group(function () {
         Route::get('/orders', function () {
             // Placeholder for orders index
             return "Orders Index";

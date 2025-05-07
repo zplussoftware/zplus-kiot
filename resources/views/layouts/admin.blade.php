@@ -109,7 +109,7 @@
 
             <!-- Page Content -->
             <div class="container-fluid p-4">
-                @yield('admin-content')
+                @yield('content')
             </div>
         </div>
     </div>

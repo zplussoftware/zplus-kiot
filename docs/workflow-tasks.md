@@ -34,10 +34,10 @@
 - [x] Tạo widget cảnh báo (hàng sắp hết, công nợ quá hạn)
 
 ### 2.2. Quản lý người dùng và phân quyền
-- [ ] Xây dựng giao diện quản lý người dùng (CRUD)
-- [ ] Xây dựng giao diện quản lý vai trò (CRUD)
-- [ ] Xây dựng giao diện quản lý quyền hạn (CRUD)
-- [ ] Phân công người dùng vào kho
+- [x] Xây dựng giao diện quản lý người dùng (CRUD)
+- [x] Xây dựng giao diện quản lý vai trò (CRUD)
+- [x] Xây dựng giao diện quản lý quyền hạn (CRUD)
+- [x] Phân công người dùng vào kho
 - [ ] Quản lý ca làm việc của nhân viên
 
 ### 2.3. Quản lý danh mục và sản phẩm
