@@ -26,12 +26,12 @@
 ## 2. Luồng Trang Admin
 
 ### 2.1. Dashboard và thống kê
-- [ ] Thiết kế dashboard tổng quan
-- [ ] Tạo biểu đồ thống kê doanh số
-- [ ] Hiển thị thông tin tồn kho
-- [ ] Hiển thị đơn hàng mới
-- [ ] Hiển thị báo cáo nhanh (doanh thu, lợi nhuận, số đơn hàng)
-- [ ] Tạo widget cảnh báo (hàng sắp hết, công nợ quá hạn)
+- [x] Thiết kế dashboard tổng quan
+- [x] Tạo biểu đồ thống kê doanh số
+- [x] Hiển thị thông tin tồn kho
+- [x] Hiển thị đơn hàng mới
+- [x] Hiển thị báo cáo nhanh (doanh thu, lợi nhuận, số đơn hàng)
+- [x] Tạo widget cảnh báo (hàng sắp hết, công nợ quá hạn)
 
 ### 2.2. Quản lý người dùng và phân quyền
 - [ ] Xây dựng giao diện quản lý người dùng (CRUD)

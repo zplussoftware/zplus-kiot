@@ -29,7 +29,15 @@
                             <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Liên hệ</a>
                         </li>
                         <li class="nav-item ms-lg-3">
-                            <a class="btn btn-primary" href="{{ route('login') }}">Đăng nhập</a>
+                            @guest
+                                <a class="btn btn-primary" href="{{ route('login') }}">Đăng nhập</a>
+                            @else
+                                @if(auth()->user()->hasRole(['Admin', 'Manager']))
+                                    <a class="btn btn-primary" href="{{ route('admin.dashboard') }}">Quản lý</a>
+                                @else
+                                    <a class="btn btn-primary" href="{{ route('pos.index') }}">Bán hàng</a>
+                                @endif
+                            @endguest
                         </li>
                     </ul>
                 </div>

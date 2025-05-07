@@ -18,8 +18,8 @@ class AdminUserSeeder extends Seeder
         // Create admin user
         $admin = User::create([
             'name' => 'Admin',
-            'email' => 'admin@zplus-kiot.com',
-            'password' => Hash::make('admin123'),
+            'email' => 'admin@zplus.vn',
+            'password' => Hash::make('Lebatoan@1002'),
             'active' => 1
         ]);
 

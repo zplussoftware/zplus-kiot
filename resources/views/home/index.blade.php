@@ -11,7 +11,15 @@
                     <h1 class="display-4 fw-bold mb-4">Hệ thống quản lý bán hàng thông minh</h1>
                     <p class="lead mb-4">Z-Plus KIOT - Giải pháp quản lý toàn diện cho cửa hàng điện tử, điện thoại và dịch vụ bảo hành. Tối ưu hóa quy trình bán hàng, quản lý kho và chăm sóc khách hàng.</p>
                     <div class="d-flex gap-3">
-                        <a href="{{ route('login') }}" class="btn btn-light btn-lg px-4">Đăng nhập</a>
+                        @guest
+                            <a href="{{ route('login') }}" class="btn btn-light btn-lg px-4">Đăng nhập</a>
+                        @else
+                            @if(auth()->user()->hasRole(['Admin', 'Manager']))
+                                <a href="{{ route('admin.dashboard') }}" class="btn btn-light btn-lg px-4">Quản lý</a>
+                            @else
+                                <a href="{{ route('pos.index') }}" class="btn btn-light btn-lg px-4">Bán hàng</a>
+                            @endif
+                        @endguest
                         <a href="{{ route('features') }}" class="btn btn-outline-light btn-lg px-4">Tìm hiểu thêm</a>
                     </div>
                 </div>
@@ -202,7 +210,15 @@
         <div class="container py-5 text-center">
             <h2 class="fw-bold mb-4">Bắt đầu sử dụng Z-Plus KIOT ngay hôm nay</h2>
             <p class="lead mb-4">Trải nghiệm hệ thống quản lý bán hàng thông minh và toàn diện cho cửa hàng của bạn</p>
-            <a href="{{ route('login') }}" class="btn btn-light btn-lg px-5">Dùng thử miễn phí</a>
+            @guest
+                <a href="{{ route('login') }}" class="btn btn-light btn-lg px-5">Dùng thử miễn phí</a>
+            @else
+                @if(auth()->user()->hasRole(['Admin', 'Manager']))
+                    <a href="{{ route('admin.dashboard') }}" class="btn btn-light btn-lg px-5">Vào trang quản lý</a>
+                @else
+                    <a href="{{ route('pos.index') }}" class="btn btn-light btn-lg px-5">Vào trang bán hàng</a>
+                @endif
+            @endguest
         </div>
     </section>
 @endsection

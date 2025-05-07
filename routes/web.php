@@ -67,9 +67,7 @@ Route::get('/home', function () {
 
 // Admin routes - require admin or manager role
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|manager'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     
     // Admin products routes - require admin role or product management permission
     Route::middleware(['permission:manage products'])->group(function () {
