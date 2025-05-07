@@ -140,61 +140,7 @@
 
 ## Giai đoạn 2: Phát triển tính năng
 
-### 1. Phân quyền và xác thực
-- [ ] Cài đặt và tích hợp Spatie Laravel Permission
-- [ ] Xây dựng hệ thống phân quyền theo role và permission
-- [ ] Phân quyền theo kho hàng
-
-### 2. Quản lý sản phẩm
-- [ ] CRUD danh mục sản phẩm
-- [ ] CRUD đơn vị tính
-- [ ] CRUD sản phẩm cơ bản
-- [ ] Upload và quản lý hình ảnh sản phẩm
-- [ ] Quản lý thuộc tính sản phẩm
-- [ ] Quản lý sản phẩm combo
-
-### 3. Quản lý kho hàng
-- [ ] CRUD kho hàng
-- [ ] Phân quyền người dùng theo kho
-- [ ] Nhập kho từ nhà cung cấp
-- [ ] Chuyển kho
-- [ ] Quản lý tồn kho
-- [ ] Quản lý serial sản phẩm
-
-### 4. Quản lý khách hàng
-- [ ] CRUD nhóm khách hàng
-- [ ] CRUD khách hàng
-- [ ] Xem lịch sử mua hàng của khách
-
-### 5. Quản lý nhà cung cấp và công nợ
-- [ ] CRUD nhà cung cấp
-- [ ] Quản lý công nợ nhà cung cấp
-- [ ] Theo dõi thanh toán công nợ
-
-### 6. Bán hàng
-- [ ] Quản lý ca làm việc
-- [ ] Màn hình POS bán hàng
-- [ ] Tìm kiếm sản phẩm theo mã, tên, barcode
-- [ ] Quản lý chiết khấu
-- [ ] Thanh toán đơn hàng
-- [ ] In hóa đơn
-
-### 7. Quản lý đơn hàng
-- [ ] Xem danh sách đơn hàng
-- [ ] Theo dõi trạng thái đơn hàng
-- [ ] Quản lý thanh toán đơn hàng
-
-### 8. Quản lý bảo hành
-- [ ] Tạo phiếu bảo hành
-- [ ] Theo dõi bảo hành theo serial
-- [ ] Quản lý yêu cầu bảo hành
-
-### 9. Báo cáo
-- [ ] Báo cáo doanh số
-- [ ] Báo cáo lợi nhuận
-- [ ] Báo cáo tồn kho
-- [ ] Báo cáo sản phẩm bán chạy
-- [ ] Báo cáo công nợ
+**Chi tiết công việc của Giai đoạn 2 đã được chuyển sang file [phase2-todo.md](phase2-todo.md)**
 
 ## Giai đoạn 3: Hoàn thiện và tối ưu
 
